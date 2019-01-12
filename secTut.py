@@ -28,8 +28,40 @@ class secondtut(Gtk.Window):
         # Make a vertical box and then add it to the horizontal one. 
         # because we will have some vertical and horizontal stuff in the upper
         # row of the listbox
-        vbox = Gtk.Box(orienation=Gtk.Orientation.VERTICAL, spacing =5)
+        vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing =5)
         hbox.pack_start(vbox, True, True, 0)
+        
+        # label name
+        lbName = Gtk.Label("Automatic date & Time", xalign=0)
+        lbLastName = Gtk.Label("Require internet acces", xalign=0)
+        vbox.pack_start(lbName, True, True, 0)
+        vbox.pack_start(lbLastName, True, True, 0)
+        
+        switch = Gtk.Switch()
+        switch.props.valign = Gtk.Align.CENTER
+        hbox.pack_start(switch, False, True, 0)
+        # Add to the listbox
+        listbox.add(listbox_row)
+        
+        row = Gtk.ListBoxRow()
+        hbox = Gtk.Box(orientation =Gtk.Orientation.HORIZONTAL, spacing = 50)
+        row.add(hbox)
+        
+        label = Gtk.Label("Enable Automatic Update", xalign=0)
+        check = Gtk.CheckButton()
+        hbox.pack_start(label, True, True, 0)
+        hbox.pack_start(check, False, True, 0)
+        
+        listbox.add(row)
+        
+        
+        
+win = secondtut()
+win.connect("destroy", Gtk.main_quit)
+win.show_all()
+Gtk.main()
+        
+        
         
         
         
