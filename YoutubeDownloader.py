@@ -64,7 +64,7 @@ class youtubeD(Gtk.ApplicationWindow):
         lbOutputType.set_markup("<span font='Ubuntu 9' font_weight='normal'> Output type: </span>")
 
         cbOutput = Gtk.ComboBoxText()
-        output_vector = ["Video", "Audio"]
+        output_vector = ["Custom","Video", "Audio"]
         for output in output_vector:
             cbOutput.append_text(output)
 
@@ -145,14 +145,14 @@ class youtubeD(Gtk.ApplicationWindow):
         self.downBox.add(row)
         self.win_scroll = Gtk.ScrolledWindow()
         self.win_scroll.add(self.downBox)
-        self.win_scroll.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
+        self.win_scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
         self.win_scroll.set_min_content_height(100)
         main_box.pack_start(self.win_scroll, True, True, 0)
         # # END ADDING TO LAYOUT
         # ## END THE DOWN BOX CONSISTING OF A LISTBOX
 
 
-        # ## METHODS
+    ### METHODS
     def on_btnAdd_click(self, widget):
 
         row = Gtk.ListBoxRow()
