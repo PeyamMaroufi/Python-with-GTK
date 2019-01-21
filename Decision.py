@@ -5,10 +5,10 @@
 # Copyright 2019 Payam Maroufi
 #-------------------------------------------------------------------------------
 class decision:
-    
+
     def __init__(self):
         pass
-        
+
     def check_validation(self):
-        pass 
+        pass
 

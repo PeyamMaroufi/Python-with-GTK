@@ -224,8 +224,8 @@ class youtubeD(Gtk.ApplicationWindow):
         win = settingWindow()
         win.connect("destroy", Gtk.main_quit)
         win.show_all()
-        
-        
+
+
 
 class MyApplication(Gtk.Application):
 
