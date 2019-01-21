@@ -218,7 +218,6 @@ class youtubeD(Gtk.ApplicationWindow):
         # is used when the combobox changes its member
         pass
 
-
     def on_btnSetting_clicked(self, button):
         # The form is ready
         from Settings import settingWindow
