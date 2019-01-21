@@ -221,7 +221,10 @@ class youtubeD(Gtk.ApplicationWindow):
 
     def on_btnSetting_clicked(self, button):
         # The form is ready
-        pass
+        from Settings import settingWindow
+        win = settingWindow()
+        win.connect("destroy", Gtk.main_quit)
+        win.show_all()
         
         
 
