@@ -27,6 +27,7 @@ class youtubeD(Gtk.ApplicationWindow):
         icon = Gio.ThemedIcon(name="applications-system")
         image = Gtk.Image.new_from_gicon(icon, Gtk.IconSize.BUTTON)
         btnSetting.add(image)
+        btnSetting.connect("clicked", self.on_btnSetting_clicked)
         hb.pack_end(btnSetting)
         # # END HEADERBAR
 
@@ -46,7 +47,6 @@ class youtubeD(Gtk.ApplicationWindow):
         plus_icon = Gio.ThemedIcon(name="list-add")
         image = Gtk.Image.new_from_gicon(plus_icon, Gtk.IconSize.BUTTON)
         add_button.add(image)
-        add_button.connect("clicked", self.on_btnAdd_click)
         # # END Button with label
 
         # # Label
@@ -75,8 +75,8 @@ class youtubeD(Gtk.ApplicationWindow):
             cbOutput.append_text(output)
 
         cbOutput.set_entry_text_column(0)
-        # # END Label with icon and Combobox
 
+        # # END Label with icon and Combobox
 
         # # ADDING TO LAYOUT
         hbox.pack_start(add_button, False, False, 0)
@@ -88,12 +88,17 @@ class youtubeD(Gtk.ApplicationWindow):
         first_box.pack_start(lbWithIcon, True, True, 0)
         main_box.pack_start(first_box, False, True, 0)
         # # END ADDING TO LAYOUT
-        # ## END UPPER BOX
 
-        # ## THE DOWN BOX CONSISTING OF A LISTBOX
+        ## EVENT FUNCTIONS FOR COMBOBOX AND BUTTON
+        cbOutput.connect("changed", self.on_cbOuput_changed)
+        add_button.connect("clicked", self.on_btnAdd_click)
+        ## END EVENT FUNCTIONS FOR COMBOBOX AND BUTTON
+        ### END UPPER BOX
+
+
+        ### THE DOWN BOX CONSISTING OF A LISTBOX
         self.downBox = Gtk.ListBox()
         self.downBox.set_selection_mode(Gtk.SelectionMode.NONE)
-        # main_box.pack_start(self.downBox, True, True, 0)
 
         """
         Making a row
@@ -160,6 +165,7 @@ class youtubeD(Gtk.ApplicationWindow):
 
     ### METHODS
     def on_btnAdd_click(self, widget):
+        # Adding new row to the list
 
         row = Gtk.ListBoxRow()
         row.set_border_width(5)
@@ -208,6 +214,16 @@ class youtubeD(Gtk.ApplicationWindow):
         self.downBox.add(row)
         self.downBox.show_all()
 
+    def on_cbOuput_changed(self, combo):
+        # is used when the combobox changes its member
+        pass
+
+
+    def on_btnSetting_clicked(self, button):
+        # The form is ready
+        pass
+        
+        
 
 class MyApplication(Gtk.Application):
 

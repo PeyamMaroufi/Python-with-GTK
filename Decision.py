@@ -7,7 +7,8 @@
 class decision:
     
     def __init__(self):
-        
+        pass
         
     def check_validation(self):
+        pass 
 
