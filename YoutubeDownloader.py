@@ -15,7 +15,7 @@ class youtubeD(Gtk.ApplicationWindow):
     def __init__(self, app):
         Gtk.Window.__init__(self, title="Youtube Download GTK", application=app)
         self.set_border_width(10)
-        self.set_size_request(500, 600)
+        self.set_size_request(620, 500)
 
         # HEADERBAR
         hb = Gtk.HeaderBar()
@@ -100,60 +100,7 @@ class youtubeD(Gtk.ApplicationWindow):
         self.downBox = Gtk.ListBox()
         self.downBox.set_selection_mode(Gtk.SelectionMode.NONE)
 
-        """
-        Making a row
-        Making a horizontal box downBox_main
-        place pic in the horisontal box first,
-        Make a vertical box and Put link in the box, make a horizontal box and place it in the vertical one with buttons
-        Make a radiobuttons in a vertical box and Download button and place them in downBox_main
-        """
-        # # Row in Listbox
-        row = Gtk.ListBoxRow()
-        row.set_border_width(5)
 
-        downBox_main = Gtk.HBox()
-        downBox_main.set_halign(Gtk.Align.CENTER)
-
-        videoIcon = Gio.ThemedIcon(name="audio-x-generic")
-        videoImage = Gtk.Image.new_from_gicon(videoIcon, Gtk.IconSize.DIALOG)
-
-        vbox_link_and_butons = Gtk.VBox()
-        vbox_link_and_butons.set_border_width(5)
-
-        link_entry = Gtk.Entry()
-        link_entry.set_placeholder_text("Paste the video link here")
-
-        quality_hbox = Gtk.HBox()
-
-        btnsQuality = [("4320p"), ("2160p"), ("1440p"), ("1080p"), ("720p"), ("480p")]
-        for buttonNames in btnsQuality:
-            btn = Gtk.ToggleButton()
-            btn.set_label(buttonNames)
-            quality_hbox.pack_start(btn, False, False, 2)
-
-        radiobtn_box = Gtk.VBox()
-        radiobtn_box.set_valign(Gtk.Align.CENTER)
-
-        rbVideo = Gtk.RadioButton.new_with_label_from_widget(None, "Video")
-        rbAudio = Gtk.RadioButton.new_from_widget(rbVideo)
-        rbAudio.set_label("Audio")
-
-        btnDownload = Gtk.Button()
-        download_icon = Gio.ThemedIcon(name="down")
-        image = Gtk.Image.new_from_gicon(download_icon, Gtk.IconSize.BUTTON)
-        btnDownload.add(image)
-
-        # # ADDING TO LAYOUT
-        downBox_main.pack_start(videoImage, False, False, 0)
-        vbox_link_and_butons.pack_start(link_entry, True, True, 0)
-        vbox_link_and_butons.pack_start(quality_hbox, True, True, 3)
-        radiobtn_box.pack_start(rbVideo, False, True, 0)
-        radiobtn_box.pack_start(rbAudio, False, True, 0)
-        downBox_main.pack_start(vbox_link_and_butons, True, False, 8)
-        downBox_main.pack_start(radiobtn_box, True, True, 0)
-        downBox_main.pack_start(btnDownload, True, True, 3)
-        row.add(downBox_main)
-        self.downBox.add(row)
         self.win_scroll = Gtk.ScrolledWindow()
         self.win_scroll.add(self.downBox)
         self.win_scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
@@ -164,11 +111,18 @@ class youtubeD(Gtk.ApplicationWindow):
 
 
     ### METHODS
+    
     def on_btnAdd_click(self, widget):
         # Adding new row to the list
-
-        row = Gtk.ListBoxRow()
-        row.set_border_width(5)
+        """
+        Making a row
+        Making a horizontal box downBox_main
+        place pic in the horisontal box first,
+        Make a vertical box and Put link in the box, make a horizontal box and place it in the vertical one with buttons
+        Make a radiobuttons in a vertical box and Download button and place them in downBox_main
+        """
+        self.row = Gtk.ListBoxRow()
+        self.row.set_border_width(5)
 
         downBox_main = Gtk.HBox()
         downBox_main.set_halign(Gtk.Align.CENTER)
@@ -210,13 +164,23 @@ class youtubeD(Gtk.ApplicationWindow):
         downBox_main.pack_start(vbox_link_and_butons, True, False, 8)
         downBox_main.pack_start(radiobtn_box, True, True, 0)
         downBox_main.pack_start(btnDownload, True, True, 3)
-        row.add(downBox_main)
-        self.downBox.add(row)
+        self.row.add(downBox_main)
+        self.downBox.add(self.row)
         self.downBox.show_all()
+
 
     def on_cbOuput_changed(self, combo):
         # is used when the combobox changes its member
-        pass
+        # Getting the index of the combox box
+        index = combo.get_active_iter()
+        if index == 1:
+            pass
+            
+        elif index == 2:
+            
+            pass
+
+
 
     def on_btnSetting_clicked(self, button):
         # The form is ready
@@ -224,7 +188,6 @@ class youtubeD(Gtk.ApplicationWindow):
         win = settingWindow()
         win.connect("destroy", Gtk.main_quit)
         win.show_all()
-
 
 
 class MyApplication(Gtk.Application):
