@@ -10,6 +10,10 @@ from gi.repository import Gtk, Gio
 import sys
 
 
+# lists of rbbttons
+lst_rbVideo = []
+lst_rbMusic = []
+
 class youtubeD(Gtk.ApplicationWindow):
 
     def __init__(self, app):
@@ -70,7 +74,7 @@ class youtubeD(Gtk.ApplicationWindow):
         lbOutputType.set_markup("<span font='Ubuntu 9' font_weight='normal'> Output type: </span>")
 
         cbOutput = Gtk.ComboBoxText()
-        output_vector = ["Custom","Video", "Audio"]
+        output_vector = ["Custom", "Video", "Audio"]
         for output in output_vector:
             cbOutput.append_text(output)
 
@@ -89,14 +93,14 @@ class youtubeD(Gtk.ApplicationWindow):
         main_box.pack_start(first_box, False, True, 0)
         # # END ADDING TO LAYOUT
 
-        ## EVENT FUNCTIONS FOR COMBOBOX AND BUTTON
+        # # EVENT FUNCTIONS FOR COMBOBOX AND BUTTON
         cbOutput.connect("changed", self.on_cbOuput_changed)
         add_button.connect("clicked", self.on_btnAdd_click)
-        ## END EVENT FUNCTIONS FOR COMBOBOX AND BUTTON
-        ### END UPPER BOX
+        # # END EVENT FUNCTIONS FOR COMBOBOX AND BUTTON
+        # ## END UPPER BOX
 
 
-        ### THE DOWN BOX CONSISTING OF A LISTBOX
+        # ## THE DOWN BOX CONSISTING OF A LISTBOX
         self.downBox = Gtk.ListBox()
         self.downBox.set_selection_mode(Gtk.SelectionMode.NONE)
 
@@ -110,8 +114,8 @@ class youtubeD(Gtk.ApplicationWindow):
         # ## END THE DOWN BOX CONSISTING OF A LISTBOX
 
 
-    ### METHODS
-    
+    # ## METHODS
+
     def on_btnAdd_click(self, widget):
         # Adding new row to the list
         """
@@ -151,10 +155,14 @@ class youtubeD(Gtk.ApplicationWindow):
         rbAudio = Gtk.RadioButton.new_from_widget(rbVideo)
         rbAudio.set_label("Audio")
 
+
         btnDownload = Gtk.Button()
         download_icon = Gio.ThemedIcon(name="down")
         image = Gtk.Image.new_from_gicon(download_icon, Gtk.IconSize.BUTTON)
         btnDownload.add(image)
+        btnDownload.connect("clicked", lambda widget: self.on_btnDownload_click(link_entry, rbVideo, rbAudio))
+        lst_rbVideo.append(rbVideo)
+        lst_rbMusic.append(rbAudio)
 
         downBox_main.pack_start(videoImage, False, False, 0)
         vbox_link_and_butons.pack_start(link_entry, True, True, 0)
@@ -173,12 +181,24 @@ class youtubeD(Gtk.ApplicationWindow):
         # is used when the combobox changes its member
         # Getting the index of the combox box
         index = combo.get_active_iter()
-        if index == 1:
-            pass
-            
-        elif index == 2:
-            
-            pass
+        if index is not None:
+            model = combo.get_model()
+            nrIndex = model[index][0]
+            if nrIndex == 'Video':
+                for rbVideos in lst_rbVideo:
+                    Gtk.ToggleButton.set_active(rbVideos, True)
+
+            elif nrIndex == 'Audio':
+                for rbMusic in lst_rbMusic:
+                    Gtk.ToggleButton.set_active(rbMusic, True)
+            else:
+                pass
+
+
+    def on_btnDownload_click(self, widget, radiobtnVideo, radiobtnMusic):
+        download_Url = widget.get_text()
+        if (radiobtnMusic.get_active() or radiobtnVideo.get_active()):
+            print(download_Url)
 
 
 
