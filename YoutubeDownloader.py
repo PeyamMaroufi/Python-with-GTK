@@ -6,7 +6,7 @@
 #-------------------------------------------------------------------------------
 import gi
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk, Gio
+from gi.repository import Gtk, Gio, Gdk
 import sys
 
 
@@ -139,7 +139,13 @@ class youtubeD(Gtk.ApplicationWindow):
 
         link_entry = Gtk.Entry()
         link_entry.set_placeholder_text("Paste the video link here")
-
+        
+        progress_bar = Gtk.ProgressBar()
+        progress_bar.set_margin_bottom(2)
+        progress_bar.set_margin_top(3)
+        progress_bar.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse("#58ACFA"))
+        
+        
         quality_hbox = Gtk.HBox()
 
         btnsQuality = [("4320p"), ("2160p"), ("1440p"), ("1080p"), ("720p"), ("480p")]
@@ -166,6 +172,7 @@ class youtubeD(Gtk.ApplicationWindow):
 
         downBox_main.pack_start(videoImage, False, False, 0)
         vbox_link_and_butons.pack_start(link_entry, True, True, 0)
+        vbox_link_and_butons.pack_start(progress_bar, True, True, 0)
         vbox_link_and_butons.pack_start(quality_hbox, True, True, 3)
         radiobtn_box.pack_start(rbVideo, False, True, 0)
         radiobtn_box.pack_start(rbAudio, False, True, 0)
@@ -197,10 +204,11 @@ class youtubeD(Gtk.ApplicationWindow):
 
     def on_btnDownload_click(self, widget, radiobtnVideo, radiobtnMusic):
         download_Url = widget.get_text()
-        if (radiobtnMusic.get_active() or radiobtnVideo.get_active()):
+        if not(radiobtnMusic.get_active()):
             print(download_Url)
-
-
+            
+        
+        
 
     def on_btnSetting_clicked(self, button):
         # The form is ready
