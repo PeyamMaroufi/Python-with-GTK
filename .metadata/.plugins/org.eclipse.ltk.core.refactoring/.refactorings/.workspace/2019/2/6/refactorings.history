@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete resource &apos;YoutubeDownloader&apos;" deleteContents="true" description="Delete resource &apos;YoutubeDownloader&apos;" element1="/YoutubeDownloader" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1549749846382"/>
+</session>

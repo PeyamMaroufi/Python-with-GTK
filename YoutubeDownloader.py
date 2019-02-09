@@ -139,13 +139,13 @@ class youtubeD(Gtk.ApplicationWindow):
 
         link_entry = Gtk.Entry()
         link_entry.set_placeholder_text("Paste the video link here")
-        
+
         progress_bar = Gtk.ProgressBar()
         progress_bar.set_margin_bottom(2)
         progress_bar.set_margin_top(3)
         progress_bar.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse("#58ACFA"))
-        
-        
+
+
         quality_hbox = Gtk.HBox()
 
         btnsQuality = [("4320p"), ("2160p"), ("1440p"), ("1080p"), ("720p"), ("480p")]
@@ -206,9 +206,9 @@ class youtubeD(Gtk.ApplicationWindow):
         download_Url = widget.get_text()
         if not(radiobtnMusic.get_active()):
             print(download_Url)
-            
-        
-        
+
+
+
 
     def on_btnSetting_clicked(self, button):
         # The form is ready
