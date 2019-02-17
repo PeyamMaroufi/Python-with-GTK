@@ -7,6 +7,7 @@
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gio, Gdk
+import Downloader
 import sys
 
 
@@ -33,7 +34,7 @@ class youtubeD(Gtk.ApplicationWindow):
         btnSetting.add(image)
         btnSetting.connect("clicked", self.on_btnSetting_clicked)
         hb.pack_end(btnSetting)
-        # # END HEADERBAR
+        # END HEADERBAR
 
         # The main
         main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
@@ -43,7 +44,7 @@ class youtubeD(Gtk.ApplicationWindow):
         first_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         first_box.set_border_width(4)
 
-        # # Button with image
+        # ## Button with image
         hbox = Gtk.HBox()
         hbox.set_halign(Gtk.Align.CENTER)
 
@@ -51,14 +52,14 @@ class youtubeD(Gtk.ApplicationWindow):
         plus_icon = Gio.ThemedIcon(name="list-add")
         image = Gtk.Image.new_from_gicon(plus_icon, Gtk.IconSize.BUTTON)
         add_button.add(image)
-        # # END Button with label
+        # ## END Button with label
 
-        # # Label
+        # ## Label
         newLabel = Gtk.Label()
         newLabel.set_markup("<span font='Ubuntu 9' font_weight='normal'>Add new download</span>")
-        # # END Label
+        # ## END Label
 
-        # # Label with icon and Combobox
+        # ## Label with icon and Combobox
         """
          Image
          label
@@ -80,9 +81,9 @@ class youtubeD(Gtk.ApplicationWindow):
 
         cbOutput.set_entry_text_column(0)
 
-        # # END Label with icon and Combobox
+        # ## END Label with icon and Combobox
 
-        # # ADDING TO LAYOUT
+        # ## ADDING TO LAYOUT
         hbox.pack_start(add_button, False, False, 0)
         hbox.pack_start(newLabel, False, False, 4)
         lbWithIcon.pack_start(Yimage, False, False, 0)
@@ -91,13 +92,13 @@ class youtubeD(Gtk.ApplicationWindow):
         first_box.pack_start(hbox, False, False, 0)
         first_box.pack_start(lbWithIcon, True, True, 0)
         main_box.pack_start(first_box, False, True, 0)
-        # # END ADDING TO LAYOUT
+        # ## END ADDING TO LAYOUT
 
-        # # EVENT FUNCTIONS FOR COMBOBOX AND BUTTON
+        # ## EVENT FUNCTIONS FOR COMBOBOX AND BUTTON
         cbOutput.connect("changed", self.on_cbOuput_changed)
         add_button.connect("clicked", self.on_btnAdd_click)
-        # # END EVENT FUNCTIONS FOR COMBOBOX AND BUTTON
-        # ## END UPPER BOX
+        # ## END EVENT FUNCTIONS FOR COMBOBOX AND BUTTON
+        # # END UPPER BOX
 
 
         # ## THE DOWN BOX CONSISTING OF A LISTBOX
@@ -110,9 +111,9 @@ class youtubeD(Gtk.ApplicationWindow):
         self.win_scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
         self.win_scroll.set_min_content_height(100)
         main_box.pack_start(self.win_scroll, True, True, 0)
-        # # END ADDING TO LAYOUT
-        # ## END THE DOWN BOX CONSISTING OF A LISTBOX
-
+        # ## END ADDING TO LAYOUT
+        # # END THE DOWN BOX CONSISTING OF A LISTBOX
+        # END of ALL
 
     # ## METHODS
 
@@ -202,10 +203,13 @@ class youtubeD(Gtk.ApplicationWindow):
                 pass
 
 
-    def on_btnDownload_click(self, widget, radiobtnVideo, radiobtnMusic):
-        download_Url = widget.get_text()
-        if not(radiobtnMusic.get_active()):
-            print(download_Url)
+    def on_btnDownload_click(self, link_entry, rbVideo, rbAudio):
+        download_Url = link_entry.get_text()
+        print(download_Url)
+        link_entry.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse("#F8F8F8"))
+        link_entry.set_text(Downloader.YouTubeDLR.get_information(self, link_entry.get_text()))
+        link_entry.set_editable(False)
+
 
 
 
