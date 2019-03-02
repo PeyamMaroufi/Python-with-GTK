@@ -20,7 +20,7 @@ class youtubeD(Gtk.ApplicationWindow):
     def __init__(self, app):
         Gtk.Window.__init__(self, title="Youtube Download GTK", application=app)
         self.set_border_width(10)
-        self.set_size_request(620, 500)
+        self.set_size_request(580, 500)
 
         # HEADERBAR
         hb = Gtk.HeaderBar()
@@ -127,7 +127,7 @@ class youtubeD(Gtk.ApplicationWindow):
         Make a radiobuttons in a vertical box and Download button and place them in downBox_main
         """
         self.row = Gtk.ListBoxRow()
-        self.row.set_border_width(5)
+        self.row.set_border_width(3)
 
         downBox_main = Gtk.HBox()
         downBox_main.set_halign(Gtk.Align.CENTER)
@@ -162,7 +162,6 @@ class youtubeD(Gtk.ApplicationWindow):
         rbAudio = Gtk.RadioButton.new_from_widget(rbVideo)
         rbAudio.set_label("Audio")
 
-
         btnDownload = Gtk.Button()
         download_icon = Gio.ThemedIcon(name="down")
         image = Gtk.Image.new_from_gicon(download_icon, Gtk.IconSize.BUTTON)
@@ -171,15 +170,15 @@ class youtubeD(Gtk.ApplicationWindow):
         lst_rbVideo.append(rbVideo)
         lst_rbMusic.append(rbAudio)
 
-        downBox_main.pack_start(videoImage, False, False, 0)
+        downBox_main.pack_start(videoImage, False, True, 0)
         vbox_link_and_butons.pack_start(link_entry, True, True, 0)
         vbox_link_and_butons.pack_start(progress_bar, True, True, 0)
         vbox_link_and_butons.pack_start(quality_hbox, True, True, 3)
         radiobtn_box.pack_start(rbVideo, False, True, 0)
         radiobtn_box.pack_start(rbAudio, False, True, 0)
-        downBox_main.pack_start(vbox_link_and_butons, True, False, 8)
+        downBox_main.pack_start(vbox_link_and_butons, True, True, 8)
         downBox_main.pack_start(radiobtn_box, True, True, 0)
-        downBox_main.pack_start(btnDownload, True, True, 3)
+        downBox_main.pack_end(btnDownload, False, False, 3)
         self.row.add(downBox_main)
         self.downBox.add(self.row)
         self.downBox.show_all()
