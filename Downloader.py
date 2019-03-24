@@ -6,6 +6,7 @@
 #-------------------------------------------------------------------------------
 from __future__ import unicode_literals
 import youtube_dl
+from youtube_dl.utils import DownloadError
 
 class YouTubeDLR:
     
@@ -25,9 +26,12 @@ class YouTubeDLR:
             try:
                 x = ydl.extract_info(url, download=False)
                 y = x['title']
-                return y
-            except:
-                print('Something went wrong')
+    
+            except DownloadError:
+                y = "Download Error. Invalid link"
+            
+            return y
+                
 
     # Get the title 
     def get_title(self):

@@ -203,11 +203,25 @@ class youtubeD(Gtk.ApplicationWindow):
 
 
     def on_btnDownload_click(self, link_entry, rbVideo, rbAudio):
-        download_Url = link_entry.get_text()
-        print(download_Url)
-        link_entry.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse("#F8F8F8"))
-        link_entry.set_text(Downloader.YouTubeDLR.get_information(self, link_entry.get_text()))
-        link_entry.set_editable(False)
+        
+        if link_entry.get_text() != "" and rbVideo.get_active():
+            
+            download_Url = link_entry.get_text()
+            print(download_Url)
+            link_entry.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse("#F8F8F8"))
+            link_entry.set_text(Downloader.YouTubeDLR.get_information(self, download_Url))
+            link_entry.set_editable(False)
+            
+        elif link_entry.get_text() != "" and rbAudio.get_active():
+            
+            download_Url = link_entry.get_text()
+            print(download_Url)
+            link_entry.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse("#F8F8F8"))
+            link_entry.set_text(Downloader.YouTubeDLR.get_information(self, download_Url))
+            link_entry.set_editable(False)
+            
+        else:
+            print("Empty")
 
 
 
