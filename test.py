@@ -7,51 +7,45 @@
 from __future__ import unicode_literals
 import youtube_dl
 from youtube_dl.utils import DownloadError
-import sys
 
-class YouTubeDLR:
+
     
-    def __init__(self, url):
+def main():
         # # Get information about video
         # Get the name of the video
         # Get available video qualities
         # Check if the video or music is downloadable. Copyright shit
         # Return the downloading process in percent
-        self.get_information(url)
-        
+        get_information()
     # Getting youtube information
-    def get_information(self, url):
-        ydl_opts = {}
+def get_information():
+        ydl_opts = {
+                    }
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-            try:
-                x = ydl.extract_info(url, download=False)
+                x = ydl.extract_info("https://www.youtube.com/watch?v=y7ThbUlPdrg", download=False)
+                print(x)
                 y = x['title']
-                print[x]
-    
-            except DownloadError:
-                y = "Download Error. Invalid link"
+                print(y)
+                y = x['resolution']
+                print(y)
+
             
-            return y
                 
 
     # Get the title 
-    def get_title(self):
-        if self.title is not None:
-            return self.title
-        else :
-            return None
+def get_title():
+    pass
     
     
-    def get_audio(self, audio_url):
+def get_audio(self, audio_url):
 
         pass
 
-    def get_video(self, video_url):
+def get_video(self, video_url):
         pass
     
-app = YouTubeDLR()
-exit_status = app.run(sys.argv)
-sys.exit(exit_status)
+if __name__ == "__main__":
+    main()
 
 
 

@@ -140,6 +140,7 @@ class youtubeD(Gtk.ApplicationWindow):
 
         link_entry = Gtk.Entry()
         link_entry.set_placeholder_text("Paste the video link here")
+        link_entry.connect("activate", lambda widget: self.entry_text_changed(link_entry))
 
         progress_bar = Gtk.ProgressBar()
         progress_bar.set_margin_bottom(2)
@@ -201,6 +202,14 @@ class youtubeD(Gtk.ApplicationWindow):
             else:
                 pass
 
+    def entry_text_changed(self, link_entry):
+        if link_entry.get_text() != "":
+            download_Url = link_entry.get_text()
+            print(download_Url)
+            link_entry.set_text(Downloader.YouTubeDLR.get_information(self, download_Url))
+            link_entry.set_editable(False)
+            
+        
 
     def on_btnDownload_click(self, link_entry, rbVideo, rbAudio):
         
@@ -208,17 +217,12 @@ class youtubeD(Gtk.ApplicationWindow):
             
             download_Url = link_entry.get_text()
             print(download_Url)
-            link_entry.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse("#F8F8F8"))
-            link_entry.set_text(Downloader.YouTubeDLR.get_information(self, download_Url))
-            link_entry.set_editable(False)
             
         elif link_entry.get_text() != "" and rbAudio.get_active():
             
             download_Url = link_entry.get_text()
             print(download_Url)
-            link_entry.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse("#F8F8F8"))
-            link_entry.set_text(Downloader.YouTubeDLR.get_information(self, download_Url))
-            link_entry.set_editable(False)
+            
             
         else:
             print("Empty")
