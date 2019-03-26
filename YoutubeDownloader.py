@@ -206,7 +206,8 @@ class youtubeD(Gtk.ApplicationWindow):
         if link_entry.get_text() != "":
             download_Url = link_entry.get_text()
             print(download_Url)
-            link_entry.set_text(Downloader.YouTubeDLR.get_information(self, download_Url))
+            Downloader.YouTubeDLR.get_information(self, download_Url)
+            link_entry.set_text(Downloader.YouTubeDLR.get_title(self))
             link_entry.set_editable(False)
             
         

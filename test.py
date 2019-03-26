@@ -19,23 +19,34 @@ def main():
         get_information()
     # Getting youtube information
 def get_information():
-        ydl_opts = {
+    quality_list = []
+    ydl_opts = {
                     }
-        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-                x = ydl.extract_info("https://www.youtube.com/watch?v=y7ThbUlPdrg", download=False)
-                print(x)
-                y = x['title']
-                print(y)
-                y = x['resolution']
-                print(y)
-
+    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+        x = ydl.extract_info("https://www.youtube.com/watch?v=y7ThbUlPdrg", download=False)
+        title = x['title']
+        formats = x.get('formats', [x])
+        for f in formats:
+            z = f['format']
+            i = z[z.index("(") + 1:z.index(")")]
+            # Check if the first char is a digit. to get rid of all 
+            # unwanted qualitys and format
+            if i[0].isdigit():
+                quality_list.append(i)
+                
+    get_title(title)
+    get_qualities(quality_list)
+                    
             
                 
 
     # Get the title 
-def get_title():
-    pass
+def get_title(title):
+        print(title)
     
+def get_qualities(quality):
+        for q in quality:
+            print(q)
     
 def get_audio(self, audio_url):
 
