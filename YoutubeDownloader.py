@@ -148,13 +148,9 @@ class youtubeD(Gtk.ApplicationWindow):
         progress_bar.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse("#58ACFA"))
 
 
-        quality_hbox = Gtk.HBox()
+        self.quality_hbox = Gtk.HBox()
 
-        btnsQuality = [("4320p"), ("2160p"), ("1440p"), ("1080p"), ("720p"), ("480p")]
-        for buttonNames in btnsQuality:
-            btn = Gtk.ToggleButton()
-            btn.set_label(buttonNames)
-            quality_hbox.pack_start(btn, False, False, 2)
+
 
         radiobtn_box = Gtk.VBox()
         radiobtn_box.set_valign(Gtk.Align.CENTER)
@@ -174,7 +170,7 @@ class youtubeD(Gtk.ApplicationWindow):
         downBox_main.pack_start(videoImage, False, True, 0)
         vbox_link_and_butons.pack_start(link_entry, True, True, 0)
         vbox_link_and_butons.pack_start(progress_bar, True, True, 0)
-        vbox_link_and_butons.pack_start(quality_hbox, True, True, 3)
+        vbox_link_and_butons.pack_start(self.quality_hbox, True, True, 3)
         radiobtn_box.pack_start(rbVideo, False, True, 0)
         radiobtn_box.pack_start(rbAudio, False, True, 0)
         downBox_main.pack_start(vbox_link_and_butons, True, True, 8)
@@ -183,7 +179,7 @@ class youtubeD(Gtk.ApplicationWindow):
         self.row.add(downBox_main)
         self.downBox.add(self.row)
         self.downBox.show_all()
-
+        self.selected_qualities =[]
 
     def on_cbOuput_changed(self, combo):
         # is used when the combobox changes its member
@@ -206,28 +202,48 @@ class youtubeD(Gtk.ApplicationWindow):
         if link_entry.get_text() != "":
             download_Url = link_entry.get_text()
             print(download_Url)
-            Downloader.YouTubeDLR.get_information(self, download_Url)
-            link_entry.set_text(Downloader.YouTubeDLR.get_title(self))
+            title_quality = Downloader.YouTubeDLR.get_information(self,download_Url)
+            link_entry.set_text(title_quality[-1])
             link_entry.set_editable(False)
+            self.available_quality = title_quality[0:-1]
             
-        
+            # Creating toggle buttons for each quality
+            x = []
+            for buttonNames in self.available_quality:
+                btn = Gtk.ToggleButton()
+                btn.set_label(buttonNames)
+                x.append(btn)
+                self.quality_hbox.pack_start(btn, True, True, 2)
+                btn.connect("toggled", lambda  x: self.on_button_toggled(x))
+
+            self.quality_hbox.show_all()
+
 
     def on_btnDownload_click(self, link_entry, rbVideo, rbAudio):
-        
+
         if link_entry.get_text() != "" and rbVideo.get_active():
-            
+
             download_Url = link_entry.get_text()
             print(download_Url)
-            
+            for i in self.selected_qualities:
+                print(i)
+
         elif link_entry.get_text() != "" and rbAudio.get_active():
-            
+
             download_Url = link_entry.get_text()
             print(download_Url)
-            
-            
+
         else:
             print("Empty")
 
+    def on_button_toggled(self, button):
+        selected_Tbtn = button.get_label()
+        if button.get_active():
+            if selected_Tbtn not in self.selected_qualities:
+                self.selected_qualities.append(selected_Tbtn)
+        else:
+            self.selected_qualities.remove(selected_Tbtn)
+            
 
 
 

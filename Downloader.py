@@ -23,12 +23,12 @@ class YouTubeDLR:
         
     # Getting youtube information
     def get_information(self, url):
-        
+        self.quality_list= []
         ydl_opts = {
                     }
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
             x = ydl.extract_info(url, download=False)
-            self.title = x['title']
+            title = x['title']
             formats = x.get('formats', [x])
             for f in formats:
                 z = f['format']
@@ -37,16 +37,25 @@ class YouTubeDLR:
                 # unwanted qualitys and format
                 if i[0].isdigit():
                     self.quality_list.append(i)
+                    
+        # Removing the doublicated
+        quality_list_refined = []
+        for q in self.quality_list:
+            if q  not in quality_list_refined:
+                quality_list_refined.append(q)
                 
+        quality_list_refined.append(title)
 
+        return quality_list_refined
+                
                 
 
     # Get the title 
     def get_title(self):
         return self.title
-    # Get qualities
-    def get_qualities(self):
-        return self.quality_list
+    
+
+    
     
     def get_audio(self, audio_url):
 
