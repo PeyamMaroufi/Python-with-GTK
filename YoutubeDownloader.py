@@ -183,6 +183,7 @@ class youtubeD(Gtk.ApplicationWindow):
         self.selected_format = []
         self.y = False
 
+
     def on_cbOuput_changed(self, combo):
         # is used when the combobox changes its member
         # Getting the index of the combox box
@@ -201,24 +202,24 @@ class youtubeD(Gtk.ApplicationWindow):
                 pass
 
     def entry_text_changed(self, link_entry):
-        ### The idea is that you get the text of the entry if there is any, and when there is
-        ### you use the help file Downloader.YoutubeDLR and ask for information. 
-        ### From the class you will get an answer including the title of the video and 
-        ### the info about fetching being succesfull. If the fetching is successful then 
-        ### you set the title and so one. You make buttons for each quality based on how many
-        ### quality get_information returns.  
+        # ## The idea is that you get the text of the entry if there is any, and when there is
+        # ## you use the help file Downloader.YoutubeDLR and ask for information.
+        # ## From the class you will get an answer including the title of the video and
+        # ## the info about fetching being succesfull. If the fetching is successful then
+        # ## you set the title and so one. You make buttons for each quality based on how many
+        # ## quality get_information returns.
         if link_entry.get_text() != "":
             self.download_Url = link_entry.get_text()
-            
+
             print(self.download_Url)
-            
-            self.title_quality, self.y = Downloader.YouTubeDLR.get_information(self,self.download_Url)
-            if self.y: 
+
+            self.title_quality, self.y = Downloader.YouTubeDLR.get_information(self, self.download_Url)
+            if self.y:
                 link_entry.set_text(self.title_quality[2])
                 link_entry.set_editable(False)
                 print(self.title_quality[1])
                 self.available_format_code = self.title_quality[0]
-                
+
                 # Creating toggle buttons for each quality
                 x = []
                 for buttonNames in self.title_quality[1]:
@@ -233,16 +234,16 @@ class youtubeD(Gtk.ApplicationWindow):
                 link_entry.set_text(self.title_quality)
 
     def on_btnDownload_click(self, link_entry, rbVideo, rbAudio):
-        ### Without pressing enter no return value will be read. 'y' is set to false
-        ### at the beginning. If user press Enter key and the fetching is successful 
-        ### the result will be used here. You can not do the fetch without pressing 
-        ### Enter key.
+        # ## Without pressing enter no return value will be read. 'y' is set to false
+        # ## at the beginning. If user press Enter key and the fetching is successful
+        # ## the result will be used here. You can not do the fetch without pressing
+        # ## Enter key.
         if self.y:
             if link_entry.get_text() != "" and rbVideo.get_active():
                 if len(self.selected_qualities) != 0:
                     Downloader.YouTubeDLR.get_video(self, self.download_Url, self.selected_format, self.selected_qualities)
-                            
-            elif link_entry.get_text()  != "" and rbAudio.get_active():
+
+            elif link_entry.get_text() != "" and rbAudio.get_active():
                 print(self.download_Url)
                 Downloader.YouTubeDLR.get_audio(self, self.download_Url)
         else:

@@ -6,7 +6,7 @@
 #-------------------------------------------------------------------------------
 from __future__ import unicode_literals
 import youtube_dl
-from youtube_dl.utils import DownloadError
+from youtube_dl.utils import DownloadError, MaxDownloadsReached
 import sys
 
 
@@ -18,7 +18,7 @@ class YouTubeDLR:
         # Check if the video or music is downloadable. Copyright shit
         # Return the downloading process in percent
         self.isitOkToDownload = True
-        
+
     # Getting youtube information
     def get_information(self, url):
         self.quality_list = []
@@ -36,7 +36,7 @@ class YouTubeDLR:
                     z = f['format']
                     i = z[z.index("(") + 1:z.index(")")]
                     d = z[0:z.index("-") - 1]
-                    # Check if the first char is a digit. to get rid of all 
+                    # Check if the first char is a digit. to get rid of all
                     # unwanted qualitys and format
                     if i[0].isdigit():
                         self.quality_list[0].append(d)
@@ -46,13 +46,13 @@ class YouTubeDLR:
                 quality_list_refined = []
                 quality_list_refined.append([])
                 quality_list_refined.append([])
-                    
+
                 for q in self.quality_list[1]:
                     if q  not in quality_list_refined[1]:
                         quality_list_refined[1].append(q)
                         # Finding the corresponding format code
-                        quality_list_refined[0].append(self.quality_list[0][self.quality_list[1].index(q)]) 
-                                
+                        quality_list_refined[0].append(self.quality_list[0][self.quality_list[1].index(q)])
+
                 quality_list_refined.append(self.title)
                 self.isitOkToDownload = True
                 return quality_list_refined, y
@@ -61,8 +61,8 @@ class YouTubeDLR:
                 x = "NOT A VALID LINK"
                 self.isitOkToDownload = False
                 return x, y
-                
-    
+
+
     def get_audio(self, audio_url):
         if self.isitOkToDownload:
             print(audio_url)
@@ -74,8 +74,9 @@ class YouTubeDLR:
             with youtube_dl.YoutubeDL(ydl_opts) as ydl:
                 ydl.download([audio_url])
 
-                
-                
+
+
+
     def get_video(self, video_url, format_codes, quality_list):
         if self.isitOkToDownload:
             i = 0
@@ -91,4 +92,4 @@ class YouTubeDLR:
                     ydl.download([video_url])
                 i = i + 1
 
-                
+
