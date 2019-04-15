@@ -181,6 +181,7 @@ class youtubeD(Gtk.ApplicationWindow):
         self.downBox.show_all()
         self.selected_qualities =[]
         self.selected_format = []
+        self.y = False
 
     def on_cbOuput_changed(self, combo):
         # is used when the combobox changes its member
@@ -202,10 +203,11 @@ class youtubeD(Gtk.ApplicationWindow):
     def entry_text_changed(self, link_entry):
         if link_entry.get_text() != "":
             self.download_Url = link_entry.get_text()
+            
             print(self.download_Url)
             
-            self.title_quality, y = Downloader.YouTubeDLR.get_information(self,self.download_Url)
-            if y: 
+            self.title_quality, self.y = Downloader.YouTubeDLR.get_information(self,self.download_Url)
+            if self.y: 
                 link_entry.set_text(self.title_quality[2])
                 link_entry.set_editable(False)
                 print(self.title_quality[1])
@@ -225,18 +227,16 @@ class youtubeD(Gtk.ApplicationWindow):
                 link_entry.set_text(self.title_quality)
 
     def on_btnDownload_click(self, link_entry, rbVideo, rbAudio):
-
-        if self.download_Url != "" and rbVideo.get_active():
-            if len(self.selected_qualities) != 0:
-                Downloader.YouTubeDLR.get_video(self, self.download_Url, self.selected_format, self.selected_qualities)
+        if self.y:
+            if link_entry.get_text() != "" and rbVideo.get_active():
+                if len(self.selected_qualities) != 0:
+                    Downloader.YouTubeDLR.get_video(self, self.download_Url, self.selected_format, self.selected_qualities)
+                            
+            elif link_entry.get_text()  != "" and rbAudio.get_active():
                 print(self.download_Url)
-
-        elif self.download_Url != "" and rbAudio.get_active():
-            print(self.download_Url)
-            Downloader.YouTubeDLR.get_audio(self, self.download_Url)
-
+                Downloader.YouTubeDLR.get_audio(self, self.download_Url)
         else:
-            print("Empty")
+            link_entry.set_text("SOMETHING WENT WRONG")
 
     def on_button_toggled(self, button):
         # Get the label of the toggle button to add to the select_qualities list.

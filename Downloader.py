@@ -73,8 +73,9 @@ class YouTubeDLR:
             print(ydl_opts)
             with youtube_dl.YoutubeDL(ydl_opts) as ydl:
                 ydl.download([audio_url])
-                
 
+                
+                
     def get_video(self, video_url, format_codes, quality_list):
         if self.isitOkToDownload:
             i = 0
