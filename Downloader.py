@@ -11,58 +11,83 @@ import sys
 
 
 class YouTubeDLR:
-    quality_list = []
-    title = ""
     def __init__(self, url):
         # # Get information about video
         # Get the name of the video
         # Get available video qualities
         # Check if the video or music is downloadable. Copyright shit
         # Return the downloading process in percent
-        pass
+        self.isitOkToDownload = True
         
     # Getting youtube information
     def get_information(self, url):
-        self.quality_list= []
+        self.quality_list = []
+        self.quality_list.append([])
+        self.quality_list.append([])
         ydl_opts = {
                     }
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-            x = ydl.extract_info(url, download=False)
-            title = x['title']
-            formats = x.get('formats', [x])
-            for f in formats:
-                z = f['format']
-                i = z[z.index("(") + 1:z.index(")")]
-                # Check if the first char is a digit. to get rid of all 
-                # unwanted qualitys and format
-                if i[0].isdigit():
-                    self.quality_list.append(i)
+            try:
+                x = ydl.extract_info(url, download=False)
+                self.title = x['title']
+                formats = x.get('formats', [x])
+                for f in formats:
+                    print(f)
+                    z = f['format']
+                    i = z[z.index("(") + 1:z.index(")")]
+                    d = z[0:z.index("-") - 1]
+                    # Check if the first char is a digit. to get rid of all 
+                    # unwanted qualitys and format
+                    if i[0].isdigit():
+                        self.quality_list[0].append(d)
+                        self.quality_list[1].append(i)
+                    y = True
+                    # Removing the doublicated
+                quality_list_refined = []
+                quality_list_refined.append([])
+                quality_list_refined.append([])
                     
-        # Removing the doublicated
-        quality_list_refined = []
-        for q in self.quality_list:
-            if q  not in quality_list_refined:
-                quality_list_refined.append(q)
+                for q in self.quality_list[1]:
+                    if q  not in quality_list_refined[1]:
+                        quality_list_refined[1].append(q)
+                        # Finding the corresponding format code
+                        quality_list_refined[0].append(self.quality_list[0][self.quality_list[1].index(q)]) 
+                                
+                quality_list_refined.append(self.title)
+                self.isitOkToDownload = True
+                return quality_list_refined, y
+            except DownloadError:
+                y = False
+                x = "NOT A VALID LINK"
+                self.isitOkToDownload = False
+                return x, y
                 
-        quality_list_refined.append(title)
-
-        return quality_list_refined
-                
-                
-
-    # Get the title 
-    def get_title(self):
-        return self.title
-    
-
-    
     
     def get_audio(self, audio_url):
+        if self.isitOkToDownload:
+            print(audio_url)
+            ydl_opts = {
+                'format': 'bestaudio/best',
+                'outtmpl': '%(title)s.%(format)s'
+                }
+            print(ydl_opts)
+            with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+                ydl.download([audio_url])
+                
 
-        pass
+    def get_video(self, video_url, format_codes, quality_list):
+        if self.isitOkToDownload:
+            i = 0
+            for q in format_codes:
+                print(q)
+                print(video_url)
+                ydl_opts = {
+                        'format': q + '+bestaudio/best',
+                        'outtmpl': '%(id)s-' + quality_list[i],
+                            }
+                print(ydl_opts)
+                with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+                    ydl.download([video_url])
+                i = i + 1
 
-    def get_video(self, video_url):
-        pass
-
-
-
+                

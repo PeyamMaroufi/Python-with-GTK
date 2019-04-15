@@ -180,6 +180,7 @@ class youtubeD(Gtk.ApplicationWindow):
         self.downBox.add(self.row)
         self.downBox.show_all()
         self.selected_qualities =[]
+        self.selected_format = []
 
     def on_cbOuput_changed(self, combo):
         # is used when the combobox changes its member
@@ -200,50 +201,60 @@ class youtubeD(Gtk.ApplicationWindow):
 
     def entry_text_changed(self, link_entry):
         if link_entry.get_text() != "":
-            download_Url = link_entry.get_text()
-            print(download_Url)
-            title_quality = Downloader.YouTubeDLR.get_information(self,download_Url)
-            link_entry.set_text(title_quality[-1])
-            link_entry.set_editable(False)
-            self.available_quality = title_quality[0:-1]
+            self.download_Url = link_entry.get_text()
+            print(self.download_Url)
             
-            # Creating toggle buttons for each quality
-            x = []
-            for buttonNames in self.available_quality:
-                btn = Gtk.ToggleButton()
-                btn.set_label(buttonNames)
-                x.append(btn)
-                self.quality_hbox.pack_start(btn, True, True, 2)
-                btn.connect("toggled", lambda  x: self.on_button_toggled(x))
+            self.title_quality, y = Downloader.YouTubeDLR.get_information(self,self.download_Url)
+            if y: 
+                link_entry.set_text(self.title_quality[2])
+                link_entry.set_editable(False)
+                print(self.title_quality[1])
+                self.available_format_code = self.title_quality[0]
+                
+                # Creating toggle buttons for each quality
+                x = []
+                for buttonNames in self.title_quality[1]:
+                    btn = Gtk.ToggleButton()
+                    btn.set_label(buttonNames)
+                    x.append(btn)
+                    self.quality_hbox.pack_start(btn, True, True, 2)
+                    btn.connect("toggled", lambda  x: self.on_button_toggled(x))
 
-            self.quality_hbox.show_all()
-
+                    self.quality_hbox.show_all()
+            else:
+                link_entry.set_text(self.title_quality)
 
     def on_btnDownload_click(self, link_entry, rbVideo, rbAudio):
 
-        if link_entry.get_text() != "" and rbVideo.get_active():
+        if self.download_Url != "" and rbVideo.get_active():
+            if len(self.selected_qualities) != 0:
+                Downloader.YouTubeDLR.get_video(self, self.download_Url, self.selected_format, self.selected_qualities)
+                print(self.download_Url)
 
-            download_Url = link_entry.get_text()
-            print(download_Url)
-            for i in self.selected_qualities:
-                print(i)
-
-        elif link_entry.get_text() != "" and rbAudio.get_active():
-
-            download_Url = link_entry.get_text()
-            print(download_Url)
+        elif self.download_Url != "" and rbAudio.get_active():
+            print(self.download_Url)
+            Downloader.YouTubeDLR.get_audio(self, self.download_Url)
 
         else:
             print("Empty")
 
     def on_button_toggled(self, button):
+        # Get the label of the toggle button to add to the select_qualities list.
         selected_Tbtn = button.get_label()
         if button.get_active():
             if selected_Tbtn not in self.selected_qualities:
+                # Choosing the toggled options
                 self.selected_qualities.append(selected_Tbtn)
+                # Choosing the corresponding format code
+                self.selected_format.append(self.available_format_code[self.title_quality[1].index(selected_Tbtn)])
+                print(self.selected_qualities)
+                print(self.selected_format)
         else:
             self.selected_qualities.remove(selected_Tbtn)
-            
+            self.selected_format.remove(self.available_format_code[self.title_quality[1].index(selected_Tbtn)])
+            print(self.selected_qualities)
+            print(self.selected_format)
+            print(len(self.selected_qualities))
 
 
 
