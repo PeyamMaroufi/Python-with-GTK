@@ -201,6 +201,12 @@ class youtubeD(Gtk.ApplicationWindow):
                 pass
 
     def entry_text_changed(self, link_entry):
+        ### The idea is that you get the text of the entry if there is any, and when there is
+        ### you use the help file Downloader.YoutubeDLR and ask for information. 
+        ### From the class you will get an answer including the title of the video and 
+        ### the info about fetching being succesfull. If the fetching is successful then 
+        ### you set the title and so one. You make buttons for each quality based on how many
+        ### quality get_information returns.  
         if link_entry.get_text() != "":
             self.download_Url = link_entry.get_text()
             
@@ -227,6 +233,10 @@ class youtubeD(Gtk.ApplicationWindow):
                 link_entry.set_text(self.title_quality)
 
     def on_btnDownload_click(self, link_entry, rbVideo, rbAudio):
+        ### Without pressing enter no return value will be read. 'y' is set to false
+        ### at the beginning. If user press Enter key and the fetching is successful 
+        ### the result will be used here. You can not do the fetch without pressing 
+        ### Enter key.
         if self.y:
             if link_entry.get_text() != "" and rbVideo.get_active():
                 if len(self.selected_qualities) != 0:
