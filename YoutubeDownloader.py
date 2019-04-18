@@ -140,7 +140,6 @@ class youtubeD(Gtk.ApplicationWindow):
 
         link_entry = Gtk.Entry()
         link_entry.set_placeholder_text("Paste the video link here")
-        link_entry.connect("activate", lambda widget: self.entry_text_changed(link_entry))
 
         progress_bar = Gtk.ProgressBar()
         progress_bar.set_margin_bottom(2)
@@ -159,6 +158,7 @@ class youtubeD(Gtk.ApplicationWindow):
         rbAudio = Gtk.RadioButton.new_from_widget(rbVideo)
         rbAudio.set_label("Audio")
 
+        link_entry.connect("activate", lambda widget: self.entry_text_changed(link_entry, rbVideo, rbAudio))
         btnDownload = Gtk.Button()
         download_icon = Gio.ThemedIcon(name="down")
         image = Gtk.Image.new_from_gicon(download_icon, Gtk.IconSize.BUTTON)
@@ -201,7 +201,7 @@ class youtubeD(Gtk.ApplicationWindow):
             else:
                 pass
 
-    def entry_text_changed(self, link_entry):
+    def entry_text_changed(self, link_entry, rbVideo, rbAudio):
         # ## The idea is that you get the text of the entry if there is any, and when there is
         # ## you use the help file Downloader.YoutubeDLR and ask for information.
         # ## From the class you will get an answer including the title of the video and
@@ -215,23 +215,27 @@ class youtubeD(Gtk.ApplicationWindow):
 
             self.title_quality, self.y = Downloader.YouTubeDLR.get_information(self, self.download_Url)
             if self.y:
-                link_entry.set_text(self.title_quality[2])
-                link_entry.set_editable(False)
-                print(self.title_quality[1])
-                self.available_format_code = self.title_quality[0]
-
-                # Creating toggle buttons for each quality
-                x = []
-                for buttonNames in self.title_quality[1]:
-                    btn = Gtk.ToggleButton()
-                    btn.set_label(buttonNames)
-                    x.append(btn)
-                    self.quality_hbox.pack_start(btn, True, True, 2)
-                    btn.connect("toggled", lambda  x: self.on_button_toggled(x))
-
-                    self.quality_hbox.show_all()
-            else:
-                link_entry.set_text(self.title_quality)
+                if rbVideo.get_active():
+                    link_entry.set_text(self.title_quality[2])
+                    link_entry.set_editable(False)
+                    print(self.title_quality[1])
+                    self.available_format_code = self.title_quality[0]
+    
+                    # Creating toggle buttons for each quality
+                    x = []
+                    for buttonNames in self.title_quality[1]:
+                        btn = Gtk.ToggleButton()
+                        btn.set_label(buttonNames)
+                        x.append(btn)
+                        self.quality_hbox.pack_start(btn, True, True, 2)
+                        btn.connect("toggled", lambda  x: self.on_button_toggled(x))
+    
+                        self.quality_hbox.show_all()
+                else:
+                    link_entry.set_text(self.title_quality[2])
+        else:
+            link_entry.set_text("Something went wrong")
+                        
 
     def on_btnDownload_click(self, link_entry, rbVideo, rbAudio):
         # ## Without pressing enter no return value will be read. 'y' is set to false

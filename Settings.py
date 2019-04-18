@@ -7,6 +7,7 @@
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
+import getpass
 
 class settingWindow(Gtk.Window):
     def __init__(self):
@@ -22,10 +23,7 @@ class settingWindow(Gtk.Window):
         txtDown = Gtk.Label()
         txtDown.set_markup("<span font='Ubuntu 9' font_weight='normal'>Download directory: </span>")
 
-        entDown = Gtk.Entry()
-        entDown.set_placeholder_text("Default")
-
-        btnBrowse = Gtk.Button("Browse")
+        self.entDown = Gtk.Label()
         # # END First row, Directory
 
         # # Second Row, Number of max Download
@@ -38,10 +36,11 @@ class settingWindow(Gtk.Window):
 
         # # ADD TO LAYOUT
         bxFolder_box.pack_start(txtDown, False, False, 0)
-        bxFolder_box.pack_start(entDown, False, False, 3)
-        bxFolder_box.pack_start(btnBrowse, True, True, 0)
+        bxFolder_box.pack_start(self.entDown, False, False, 3)
         bxNumDown.pack_start(txtNumDown, False, True, 0)
         bxNumDown.pack_start(sbtnMaxDowns, True,True, 3)
         main_box.pack_start(bxFolder_box, False, False, 0)
         main_box.pack_start(bxNumDown, False, False, 0)
-
+        x = getpass.getuser()
+        self.entDown.set_text('/home/'+x+'/Downloads')
+    

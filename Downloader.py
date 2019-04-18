@@ -8,6 +8,7 @@ from __future__ import unicode_literals
 import youtube_dl
 from youtube_dl.utils import DownloadError, MaxDownloadsReached
 import sys
+import getpass
 
 
 class YouTubeDLR:
@@ -18,7 +19,6 @@ class YouTubeDLR:
         # Check if the video or music is downloadable. Copyright shit
         # Return the downloading process in percent
         self.isitOkToDownload = True
-
     # Getting youtube information
     def get_information(self, url):
         self.quality_list = []
@@ -64,11 +64,12 @@ class YouTubeDLR:
 
 
     def get_audio(self, audio_url):
+        x = getpass.getuser()
         if self.isitOkToDownload:
             print(audio_url)
             ydl_opts = {
                 'format': 'bestaudio/best',
-                'outtmpl': '%(title)s.%(format)s'
+                'outtmpl': '/home/'+x+'/Downloads/%(title)s.%(format)s'
                 }
             print(ydl_opts)
             with youtube_dl.YoutubeDL(ydl_opts) as ydl:
@@ -78,6 +79,7 @@ class YouTubeDLR:
 
 
     def get_video(self, video_url, format_codes, quality_list):
+        x = getpass.getuser()
         if self.isitOkToDownload:
             i = 0
             for q in format_codes:
@@ -85,7 +87,7 @@ class YouTubeDLR:
                 print(video_url)
                 ydl_opts = {
                         'format': q + '+bestaudio/best',
-                        'outtmpl': '%(id)s-' + quality_list[i],
+                        'outtmpl':'/home/'+x+'/Downloads/%(id)s-' + quality_list[i],
                             }
                 print(ydl_opts)
                 with youtube_dl.YoutubeDL(ydl_opts) as ydl:
