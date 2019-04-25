@@ -24,6 +24,7 @@ This program uses youtube-dl to download youtube music videos and songs. This is
 
 ## BUGS
 When you press the plus button multiple times to add new downloads and paste the link in the upper text field the available qualities appear on the last row. 
+
 Solution: Add new download -> Paste link -> Enter.  Add new download -> Paste link -> Enter and so on.
 
 I'm working on a better solution in the code as soon as I have time.
