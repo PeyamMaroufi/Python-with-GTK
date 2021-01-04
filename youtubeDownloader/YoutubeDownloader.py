@@ -47,7 +47,7 @@ class youtubeD(Gtk.ApplicationWindow):
         # Download label
         __addDown_lbl = Gtk.Label()
         __addDown_lbl.set_markup(
-            "<span font='Ubuntu 9' font_weight='normal'>Add new download</span>")
+            "<span font='Ubuntu 9' font_weight='normal'> New download </span>")
 
         # Output type label
         __outputType_lbl = Gtk.Label()
@@ -75,18 +75,16 @@ class youtubeD(Gtk.ApplicationWindow):
         __output_cb.connect("changed", self.on_cbOuput_changed)
         __addDown_btn.connect("clicked", self.on_btnAdd_click)
 
-        # ## THE DOWN BOX CONSISTING OF A LISTBOX
+        """ The download's section. """
         self.downBox = Gtk.ListBox()
         self.downBox.set_selection_mode(Gtk.SelectionMode.NONE)
-
         self.win_scroll = Gtk.ScrolledWindow()
         self.win_scroll.add(self.downBox)
         self.win_scroll.set_policy(
             Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
         self.win_scroll.set_min_content_height(100)
-        main_box.pack_start(self.win_scroll, True, True, 0)
 
-    # ## METHODS
+        main_box.pack_start(self.win_scroll, True, True, 0)
 
     def on_btnAdd_click(self, widget):
         # Adding new row to the list
