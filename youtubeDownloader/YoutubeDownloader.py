@@ -20,7 +20,7 @@ class youtubeD(Gtk.ApplicationWindow):
 
     def __init__(self, app):
         Gtk.Window.__init__(self, title="Youtube Downloader", application=app)
-        self.set_border_width(5)
+        self.set_border_width(3)
         self.set_size_request(580, 500)
         main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=3)
         self.add(main_box)
